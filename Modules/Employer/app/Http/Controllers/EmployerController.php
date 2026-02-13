@@ -25,7 +25,7 @@ class EmployerController extends Controller
         if ($mobile = $request->get('mobile')) {
             $query->where('mobile', 'like', "%{$mobile}%");
         }
-        $employers = $query->latest('id')->paginate(20);
+        $employers = $query->latest('id')->get();
         return response()->json([
             'success' => true,
             'message' => 'لیست کارفرمایان',

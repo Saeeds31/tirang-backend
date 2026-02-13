@@ -17,7 +17,7 @@ class PortfolioCategoryStoreRequest extends FormRequest
             'icon'=>'required|file|max:1024',
             'meta_title'=>'nullable|string|min:3',
             'meta_description'=>'nullable|string|min:3',
-            'show_in_home'=>'required|in:true,false',
+            'show_in_home'=>'required|boolean',
         ];
     }
 

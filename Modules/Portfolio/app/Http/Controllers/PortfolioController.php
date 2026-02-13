@@ -15,7 +15,7 @@ class PortfolioController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Portfolio::with('category', 'employer')->query();
+        $query = Portfolio::query()->with('category', 'employer');
         if ($title = $request->get('title')) {
             $query->where('title', 'like', "%{$title}%");
         }
@@ -36,7 +36,7 @@ class PortfolioController extends Controller
     }
     public function show($id)
     {
-        $portfolio = Portfolio::find($id);
+        $portfolio = Portfolio::with('images', 'category', 'employer')->find($id);
         if (!$portfolio) {
             return response()->json([
                 'success' => false,
@@ -57,6 +57,11 @@ class PortfolioController extends Controller
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('portfolios', 'public');
             $data['image'] = $path;
+        }
+
+        if ($request->hasFile('video')) {
+            $videoPath = $request->file('video')->store('portfolios-videos', 'public');
+            $data['video'] = $videoPath;
         }
         $portfolio = Portfolio::create($data);
         if ($request->hasFile('images')) {
@@ -87,16 +92,26 @@ class PortfolioController extends Controller
     // Update article
     public function update(
         PortfolioUpdateRequest $request,
-        Portfolio $portfolio,
+        $id,
         NotificationService $notifications
     ) {
         $data = $request->validated();
+        $portfolio = Portfolio::findOrFail($id);
+
         if ($request->hasFile('image')) {
             if ($portfolio->image && Storage::disk('public')->exists($portfolio->image)) {
                 Storage::disk('public')->delete($portfolio->image);
             }
             $path = $request->file('image')->store('portfolios', 'public');
             $data['image'] = $path;
+        }
+
+        if ($request->hasFile('video')) {
+            if ($portfolio->video && Storage::disk('public')->exists($portfolio->video)) {
+                Storage::disk('public')->delete($portfolio->video);
+            }
+            $path = $request->file('video')->store('portfolios-video', 'public');
+            $data['video'] = $path;
         }
         $portfolio->update($data);
         if ($request->hasFile('images')) {
@@ -109,7 +124,7 @@ class PortfolioController extends Controller
                 ]);
                 $imageIds[] = $image->id;
             }
-            $portfolio->images()->sync($imageIds);
+            $portfolio->images()->attach($imageIds);
         }
         $notifications->create(
             "ویرایش نمونه کار",
@@ -127,10 +142,14 @@ class PortfolioController extends Controller
 
     // Delete article
 
-    public function destroy(Portfolio $portfolio, NotificationService $notifications)
+    public function destroy($id, NotificationService $notifications)
     {
+        $portfolio = Portfolio::findOrFail($id);
         if ($portfolio->image && Storage::disk('public')->exists($portfolio->image)) {
             Storage::disk('public')->delete($portfolio->image);
+        }
+        if ($portfolio->video && Storage::disk('public')->exists($portfolio->video)) {
+            Storage::disk('public')->delete($portfolio->video);
         }
         foreach ($portfolio->images as $image) {
             if (Storage::disk('public')->exists($image->path)) {
@@ -151,8 +170,9 @@ class PortfolioController extends Controller
             'message' => 'نمونه کار با موفقیت حذف شد'
         ]);
     }
-    public function destroyImage($portfolioId, $imageId)
+    public function destroyImage(Request $request, $portfolioId)
     {
+        $imageId = $request->imageId;
         $portfolio = Portfolio::findOrFail($portfolioId);
         $image = $portfolio->images()->where('images.id', $imageId)->firstOrFail();
 

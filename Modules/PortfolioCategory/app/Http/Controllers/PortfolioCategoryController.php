@@ -20,7 +20,7 @@ class PortfolioCategoryController extends Controller
             $query->where('title_fa', 'like', "%{$title}%");
             $query->where('title_en', 'like', "%{$title}%");
         }
-        $categories = $query->latest('id')->paginate(20);
+        $categories = $query->latest('id')->get();
         return response()->json([
             'success' => true,
             'message' => 'لیست دسته بندی',
@@ -68,10 +68,11 @@ class PortfolioCategoryController extends Controller
     // Update article
     public function update(
         PortfolioCategoryUpdateRequest $request,
-        PortfolioCategory $category,
+        $id,
         NotificationService $notifications
     ) {
         $data = $request->validated();
+        $category = PortfolioCategory::findOrFail($id);
         if ($request->hasFile('icon')) {
             if ($category->icon && Storage::disk('public')->exists($category->icon)) {
                 Storage::disk('public')->delete($category->icon);
@@ -97,8 +98,9 @@ class PortfolioCategoryController extends Controller
 
     // Delete article
 
-    public function destroy(PortfolioCategory $category, NotificationService $notifications)
+    public function destroy($id, NotificationService $notifications)
     {
+        $category = PortfolioCategory::findOrFail($id);
         $exist = Portfolio::where('category_id')->exists();
         if ($exist) {
             return response()->json([

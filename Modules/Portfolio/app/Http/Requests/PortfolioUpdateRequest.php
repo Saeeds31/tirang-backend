@@ -20,8 +20,8 @@ class PortfolioUpdateRequest extends FormRequest
             "meta_description" => 'sometimes|string|min:3',
             "social_link" => 'sometimes|url|min:3',
             "website_link" => 'sometimes|url|min:3',
-            'employer_id' => 'sometimes|integer|exist:employers,id',
-            'category_id' => 'sometimes|integer|exist:portfolio_categories,id',
+            'employer_id' => 'sometimes|integer|exists:employers,id',
+            'category_id' => 'sometimes|integer|exists:portfolio_categories,id',
         ];
     }
 

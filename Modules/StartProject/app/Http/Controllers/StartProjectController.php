@@ -59,8 +59,11 @@ class StartProjectController extends Controller
             'Role'   => 'نقش',
             'User'   => 'کاربران',
             'team'   => 'تیم',
+            'employer'   => 'کارفرما',
             'history'   => 'تاریخچه',
             'Wallet'   => 'کیف پول',
+            'portfolio'   => 'نمونه کار',
+            'portfolio_category'   => 'دسته بندی نمونه کار',
             'WalletTransaction'   => 'تراکنش کیف پول',
             'manager'   => 'مدیریت',
         ];

@@ -17,7 +17,7 @@ class PortfolioCategoryUpdateRequest extends FormRequest
             'icon' => 'sometimes|file|max:1024',
             'meta_title' => 'nullable|string|min:3',
             'meta_description' => 'nullable|string|min:3',
-            'show_in_home' => 'sometimes|in:true,false',
+            'show_in_home' => 'sometimes|boolean',
         ];
     }
 

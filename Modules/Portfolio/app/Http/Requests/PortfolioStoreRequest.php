@@ -20,8 +20,8 @@ class PortfolioStoreRequest extends FormRequest
             "meta_description" => 'nullable|string|min:3',
             "social_link" => 'nullable|url|max:255',
             "website_link" => 'nullable|url|max:255',
-            'employer_id' => 'required|integer|exist:employers,id',
-            'category_id' => 'required|integer|exist:portfolio_categories,id',
+            'employer_id' => 'required|integer|exists:employers,id',
+            'category_id' => 'required|integer|exists:portfolio_categories,id',
         ];
     }
 
