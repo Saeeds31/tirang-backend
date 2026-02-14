@@ -114,7 +114,7 @@ class UsersController extends Controller
     // لیست مدیران
     public function managerIndex()
     {
-        $users = User::with(['roles', 'addresses', 'wallet'])
+        $users = User::with(['roles', 'wallet'])
             ->whereHas('roles', function ($query) {
                 $query->whereNotIn('slug', ['customer', 'super admin']);
             })
