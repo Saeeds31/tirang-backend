@@ -17,46 +17,7 @@ use Modules\Wallet\Models\Wallet;
 class UsersController extends Controller
 {
 
-    public function setValidity(Request $request, $userId, NotificationService $notifications)
-    {
-        $user = User::findOrFail($userId);
-        $validated_data = $request->validate([
-            'to_date' => 'required|date'
-        ]);
-        $toDate = Carbon::parse($validated_data['to_date']);
-        $today = Carbon::today();
 
-        if ($toDate->lt($today)) {
-            $notifications->create(
-                " انقضاء تاریخ اعتبار کاربر",
-                "تاریخ اعتبار کاربر {$user->full_name} لغو  شد",
-                "notification_users",
-                ['users' => null]
-            );
-            Validity::where('user_id', $user->id)->delete();
-            return response()->json([
-                'message' => 'تاریخ منقضی شده است. اعتبار کاربر لغو شد.',
-                'success' => true,
-            ]);
-        }
-        Validity::updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'to_date' => $toDate,
-                'status' => true
-            ]
-        );
-        $notifications->create(
-            " افزایش تاریخ اعتبار کاربر",
-            "تاریخ اعتبار کاربر {$user->full_name} تمدید شد",
-            "notification_users",
-            ['users' => null]
-        );
-        return response()->json([
-            'message' => 'تاریخ اعتبار تمدید شد.',
-            'success' => true,
-        ]);
-    }
     public function adminInfo(Request $request)
     {
         $user = $request->user();
@@ -69,10 +30,9 @@ class UsersController extends Controller
     }
     public function index(Request $request)
     {
-        $query = User::with(['validity', 'register'])
-            ->whereHas('roles', function ($q) {
-                $q->where('slug', 'customer');
-            });
+        $query = User::whereHas('roles', function ($q) {
+            $q->where('slug', 'customer');
+        });
 
         //  1) دسترسی‌های کاربر لاگین
         $admin = $request->user();
@@ -131,31 +91,7 @@ class UsersController extends Controller
     }
 
 
-    public function validityReject($userId, NotificationService $notifications)
-    {
-        $user = User::where('id', $userId)->first();
-        if (!is_null($user->referred_by)) {
-            return response()->json([
-                'success' => false,
-                'message' => "این کاربر کد معرف دارد و برای این موضوع نمیتوانید اعتبارش را غیرفعال کنید"
-            ], 422);
-        }
-        $validity = Validity::firstWhere('user_id', $userId);
 
-        if ($validity) {
-            $validity->delete();
-        }
-        $notifications->create(
-            "عدم تایید کاربر",
-            "کاربر {$user->full_name}  به علت عدم وجود معرف رد شد",
-            "notification_users",
-            ['users' => null]
-        );
-        return response()->json([
-            'success' => true,
-            'message' => "کاربر غیرفعال شد"
-        ]);
-    }
     public function userProfile(Request $request)
     {
         $user = $request->user();
@@ -172,16 +108,7 @@ class UsersController extends Controller
         return response()->json([
             'message' => 'پروفایل کاربر',
             'success' => true,
-            'user' => $user->load(['city', 'identity_document', 'physical', 'important_document', 'register', 'wallet'])
-        ]);
-    }
-    public function userValidity(Request $request)
-    {
-        $user = $request->user();
-        return response()->json([
-            'message' => 'وضعیت کاربر',
-            'success' => true,
-            'validity' => $user->validity
+            'user' => $user->load(['city', 'wallet'])
         ]);
     }
     // لیست مدیران
@@ -222,7 +149,7 @@ class UsersController extends Controller
     // نمایش یک کاربر
     public function show(User $user)
     {
-        return response()->json($user->load(['roles', 'wallet', 'referrer', 'validity', 'register', 'important_document', 'physical', 'identity_document', 'city.province']));
+        return response()->json($user->load(['roles', 'wallet', 'city.province']));
     }
 
     // ویرایش کاربر
