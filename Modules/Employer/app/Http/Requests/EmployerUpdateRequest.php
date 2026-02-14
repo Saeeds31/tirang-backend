@@ -12,9 +12,9 @@ class EmployerUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => 'sometimes|string|min:3',
+            'full_name' => 'nullable|string|min:3',
             'mobile' => "sometimes|string|size:11",
-            'image' => 'sometimes|file|max:1024',
+            'image' => 'nullable|file|max:1024',
             'business_label' => 'sometimes|string|min:3',
             'business_logo' => 'sometimes|file|max:1024'
         ];

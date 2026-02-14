@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('employers', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
+            $table->string('full_name')->nullable();
             $table->string('mobile');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('business_label');
             $table->string('business_logo');
             $table->timestamps();

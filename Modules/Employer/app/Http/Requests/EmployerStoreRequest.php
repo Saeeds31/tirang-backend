@@ -12,9 +12,9 @@ class EmployerStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => 'required|string|min:3',
+            'full_name' => 'nullable|string|min:3',
             'mobile' => "required|string|size:11",
-            'image' => 'required|file|max:1024',
+            'image' => 'nullable|file|max:1024',
             'business_label' => 'required|string|min:3',
             'business_logo' => 'required|file|max:1024'
         ];
