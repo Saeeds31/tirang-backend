@@ -13,14 +13,14 @@ class PortfolioStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:3',
-            'description' => 'required|string|min:3',
+            'description' => 'nullable|string|min:3',
             "image" => 'required|file|max:1024',
-            "video" => 'required|file|max:4096',
+            "video" => 'nullable|file|max:4096',
             "meta_title" => 'nullable|string|min:3',
             "meta_description" => 'nullable|string|min:3',
             "social_link" => 'nullable|url|max:255',
             "website_link" => 'nullable|url|max:255',
-            'employer_id' => 'required|integer|exists:employers,id',
+            'employer_id' => 'nullable|integer|exists:employers,id',
             'category_id' => 'required|integer|exists:portfolio_categories,id',
         ];
     }

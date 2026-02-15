@@ -13,14 +13,14 @@ class PortfolioUpdateRequest extends FormRequest
     {
         return [
             'title' => 'sometimes|string|min:3',
-            'description' => 'sometimes|string|min:3',
+            'description' => 'nullable|string|min:3',
             "image" => 'sometimes|file|max:1024',
-            "video" => 'sometimes|file|max:4096',
+            "video" => 'nullable|file|max:4096',
             "meta_title" => 'sometimes|string|min:3',
             "meta_description" => 'sometimes|string|min:3',
             "social_link" => 'sometimes|url|min:3',
             "website_link" => 'sometimes|url|min:3',
-            'employer_id' => 'sometimes|integer|exists:employers,id',
+            'employer_id' => 'nullable|integer|exists:employers,id',
             'category_id' => 'sometimes|integer|exists:portfolio_categories,id',
         ];
     }

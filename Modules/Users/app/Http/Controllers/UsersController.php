@@ -34,29 +34,7 @@ class UsersController extends Controller
             $q->where('slug', 'customer');
         });
 
-        //  1) دسترسی‌های کاربر لاگین
-        $admin = $request->user();
 
-        // اگر attribute permissions وجود نداشت خطا نده
-        $adminPermissions = is_array($admin->permissions ?? null) ? $admin->permissions : [];
-
-        //  2) پیدا کردن permission هایی که با citymanager_ شروع می‌شوند
-        $cityPermissions = array_filter($adminPermissions, function ($permission) {
-            return str_starts_with($permission, 'citymanager_');
-        });
-
-        //  3) استخراج city_id ها از پرمیژن‌ها
-        $cityIds = array_map(function ($perm) {
-            return intval(str_replace('citymanager_', '', $perm));
-        }, $cityPermissions);
-
-        //  4) اگر کاربر admin به چند شهر دسترسی داشت → فقط همان شهرها
-        if (!empty($cityIds)) {
-            $query->whereIn('city_id', $cityIds);
-        }
-        // اگر خالی بود → یعنی ادمین همه را ببیند (هیچ محدودیتی نزن)
-
-        // فیلترهای دیگر
         if ($fullName = $request->get('full_name')) {
             $query->where('full_name', 'like', "%{$fullName}%");
         }
@@ -69,23 +47,12 @@ class UsersController extends Controller
             $query->where('national_code', 'like', "%{$nationalCode}%");
         }
 
-        if ($request->filled('referral')) {
-            if ($request->referral == 1) {
-                $query->whereNotNull('referred_by');
-            } elseif ($request->referral == 0) {
-                $query->whereNull('referred_by');
-            }
-        }
 
         if ($birthDate = $request->get('birth_date')) {
             $query->whereDate('birth_date', $birthDate);
         }
 
-        if ($provinceId = $request->get('province_id')) {
-            $query->whereHas('city', function ($q) use ($provinceId) {
-                $q->where('province_id', $provinceId);
-            });
-        }
+
 
         return response()->json($query->paginate(20));
     }
@@ -108,7 +75,7 @@ class UsersController extends Controller
         return response()->json([
             'message' => 'پروفایل کاربر',
             'success' => true,
-            'user' => $user->load(['city', 'wallet'])
+            'user' => $user->load(['wallet'])
         ]);
     }
     // لیست مدیران
@@ -149,7 +116,7 @@ class UsersController extends Controller
     // نمایش یک کاربر
     public function show(User $user)
     {
-        return response()->json($user->load(['roles', 'wallet', 'city.province']));
+        return response()->json($user->load(['roles', 'wallet',]));
     }
 
     // ویرایش کاربر
