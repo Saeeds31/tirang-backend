@@ -10,6 +10,7 @@ use Modules\Notifications\Services\NotificationService;
 use Modules\Portfolio\Http\Requests\PortfolioStoreRequest;
 use Modules\Portfolio\Http\Requests\PortfolioUpdateRequest;
 use Modules\Portfolio\Models\Portfolio;
+use Modules\PortfolioCategory\Models\PortfolioCategory;
 
 class PortfolioController extends Controller
 {
@@ -34,6 +35,25 @@ class PortfolioController extends Controller
             'data'    => $portfolios
         ]);
     }
+    public function indexFront(Request $request)
+    {
+        $query = Portfolio::query()->with('category', 'employer');
+        if ($title = $request->get('title')) {
+            $query->where('title', 'like', "%{$title}%");
+        }
+        $category = null;
+        if ($category_id = $request->get('category_id')) {
+            $category = PortfolioCategory::findOrFail($category_id);
+            $query->where('category_id', $category_id);
+        }
+        $portfolios = $query->latest('id')->paginate(20);
+        return response()->json([
+            'success' => true,
+            'category' => $category,
+            'message' => 'لیست نمونه کار',
+            'data'    => $portfolios
+        ]);
+    }
     public function show($id)
     {
         $portfolio = Portfolio::with('images', 'category', 'employer')->find($id);
@@ -49,6 +69,23 @@ class PortfolioController extends Controller
             'data'    => $portfolio
         ]);
     }
+
+    public function showFront($id)
+    {
+        $portfolio = Portfolio::with('images', 'category', 'employer')->find($id);
+        if (!$portfolio) {
+            return response()->json([
+                'success' => false,
+                'message' => 'نمونه کار پیدا نشد',
+            ], 404);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'جزئیات نمونه کار',
+            'data'    => $portfolio
+        ]);
+    }
+
 
     // Store new article
     public function store(PortfolioStoreRequest $request, NotificationService $notifications)

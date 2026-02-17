@@ -27,6 +27,27 @@ class PortfolioCategoryController extends Controller
             'data'    => $categories
         ]);
     }
+
+    public function frontIndex(Request $request)
+    {
+        $categories  = PortfolioCategory::latest('id')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'لیست دسته بندی',
+            'data'    => $categories
+        ]);
+    }
+
+    public function homeIndex(Request $request)
+    {
+        $categories  = PortfolioCategory::where('show_in_home', true)->latest('id')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'لیست دسته بندی صفحه اصلی',
+            'data'    => $categories
+        ]);
+    }
+
     public function show($id)
     {
         $categories = PortfolioCategory::find($id);

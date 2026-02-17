@@ -23,4 +23,7 @@ class PortfolioCategory extends Model
     ];
 
     protected $table = "portfolio_categories";
+    protected $casts = [
+        'show_in_home' => 'boolean',
+    ];
 }

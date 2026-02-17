@@ -8,4 +8,5 @@ Route::middleware(['auth:sanctum'])->prefix('v1/admin')->group(function () {
 });
 Route::prefix('v1/front')->group(function () {
     Route::get('teams', [TeamController::class, 'index'])->name('teamFront');
+    Route::get('teams-home', [TeamController::class, 'indexHome'])->name('teamFrontHome');
 });

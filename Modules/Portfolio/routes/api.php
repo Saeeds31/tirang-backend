@@ -7,3 +7,8 @@ Route::middleware(['auth:sanctum'])->prefix('v1/admin')->group(function () {
     Route::apiResource('portfolios', PortfolioController::class)->names('portfolio');
     Route::post('portfolios/{portfolioId}/delete-image', [PortfolioController::class, 'destroyImage'])->name('portfolio-delete-image');
 });
+
+Route::prefix('v1/front')->group(function () {
+    Route::get('portfolios',[ PortfolioController::class,'indexFront'])->name('portfolioIndexFront');
+    Route::get('portfolios/{id}',[ PortfolioController::class,'showFront'])->name('portfolioShowFront');
+});

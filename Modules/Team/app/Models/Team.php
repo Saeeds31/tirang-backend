@@ -18,4 +18,7 @@ class Team extends Model
         'mobile',
         'show_in_home'
     ];
+    protected $casts = [
+        'show_in_home' => 'boolean',
+    ];
 }

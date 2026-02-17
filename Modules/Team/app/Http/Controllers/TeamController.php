@@ -25,12 +25,21 @@ class TeamController extends Controller
         ]);
     }
 
+    public function indexHome()
+    {
+        $teams = Team::where('show_in_home', true)->orderBy('sort_order')->get();
+        return response()->json([
+            'message' => 'لیست نفرات تیم',
+            'data' => $teams,
+            'success' => true
+        ]);
+    }
 
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TeamStoreRequest $request,NotificationService $notifications)
+    public function store(TeamStoreRequest $request, NotificationService $notifications)
     {
         $validated_data = $request->validated();
         if ($request->hasFile('image')) {
@@ -65,7 +74,7 @@ class TeamController extends Controller
     }
 
 
-    public function update(TeamUpdateRequest $request, $id,NotificationService $notifications)
+    public function update(TeamUpdateRequest $request, $id, NotificationService $notifications)
     {
         $validated_data = $request->validated();
         $member = Team::findOrFail($id);
@@ -93,7 +102,7 @@ class TeamController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id,NotificationService $notifications)
+    public function destroy($id, NotificationService $notifications)
     {
         $member = Team::find($id);
 

@@ -26,6 +26,17 @@ class HistoryController extends Controller
         ]);
     }
 
+    public function frontHistory(Request $request)
+    {
+        $histories = History::latest('date')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'لیست تاریخچه',
+            'data'    => $histories
+        ]);
+    }
+
+
     // Show single article
     public function show($id)
     {
