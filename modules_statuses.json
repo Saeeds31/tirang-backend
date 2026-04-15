@@ -34,5 +34,6 @@
     "Portfolio": true,
     "Employer": true,
     "Images": true,
-    "Image": true
+    "Image": true,
+    "File": true
 }

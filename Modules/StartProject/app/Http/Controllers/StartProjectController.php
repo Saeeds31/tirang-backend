@@ -61,6 +61,8 @@ class StartProjectController extends Controller
             'team'   => 'تیم',
             'employer'   => 'کارفرما',
             'history'   => 'تاریخچه',
+            'File'   => 'فایل ها',
+            'FileCategory'   => 'دسته بندی فایل',
             'Wallet'   => 'کیف پول',
             'portfolio'   => 'نمونه کار',
             'portfolio_category'   => 'دسته بندی نمونه کار',

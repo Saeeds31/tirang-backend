@@ -4,6 +4,8 @@ namespace Modules\PortfolioCategory\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Portfolio\Models\Portfolio;
+
 // use Modules\PortfolioCategory\Database\Factories\PortfolioCategoryFactory;
 
 class PortfolioCategory extends Model
@@ -26,4 +28,8 @@ class PortfolioCategory extends Model
     protected $casts = [
         'show_in_home' => 'boolean',
     ];
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class, 'category_id');
+    }
 }

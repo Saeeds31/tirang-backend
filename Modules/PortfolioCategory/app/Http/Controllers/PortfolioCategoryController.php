@@ -28,6 +28,15 @@ class PortfolioCategoryController extends Controller
         ]);
     }
 
+    public function frontDetail($id)
+    {
+        $category  = PortfolioCategory::with(['portfolios.images'])->findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'message' => ' دسته بندی',
+            'data'    => $category
+        ]);
+    }
     public function frontIndex(Request $request)
     {
         $categories  = PortfolioCategory::latest('id')->get();

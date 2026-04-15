@@ -42,6 +42,7 @@
             "Modules\\Team\\": "Modules/Team/app/",
             "Modules\\PortfolioCategory\\": "Modules/PortfolioCategory/app/",
             "Modules\\Portfolio\\": "Modules/Portfolio/app/",
+            "Modules\\File\\": "Modules/File/app/",
             "Modules\\History\\": "Modules/History/app/",
             "Modules\\Employer\\": "Modules/Employer/app/",
             "Modules\\Image\\": "Modules/Image/app/",

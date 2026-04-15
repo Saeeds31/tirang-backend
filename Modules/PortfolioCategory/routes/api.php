@@ -9,4 +9,5 @@ Route::middleware(['auth:sanctum'])->prefix('v1/admin')->group(function () {
 Route::prefix('v1/front')->group(function () {
     Route::get('portfolio-categories', [PortfolioCategoryController::class, 'frontIndex'])->name('portfoliocategoryForntIndex');
     Route::get('home-portfolio-categories', [PortfolioCategoryController::class, 'homeIndex'])->name('portfoliocategoryFrontHome');
+    Route::get('portfolio-categories/{id}', [PortfolioCategoryController::class, 'frontDetail'])->name('portfoliocategoryFrontDetail');
 });
