@@ -87,10 +87,13 @@ class StartProjectController extends Controller
         }
         $others = [
             'dashboard_view' => 'داشبورد',
+            'contact_view' => 'مشاهده فرم تماس',
+            'contact_edit' => 'تغییرات فرم تماس',
             'report_users' => 'گزارش کاربران',
             'report_sales' => 'گزارش فروش',
             'comment_blogs' => 'کامنت مقالات',
             'notification_users' => 'اعلان کاربران',
+            'notification_contact' => 'اعلان فرم تماس',
             'notification_content' => 'اعلان محتوا',
             'notification_finance' => 'اعلان مالی',
             'role_permission' => 'دسترسی نقش'

@@ -44,6 +44,7 @@
             "Modules\\Portfolio\\": "Modules/Portfolio/app/",
             "Modules\\File\\": "Modules/File/app/",
             "Modules\\History\\": "Modules/History/app/",
+            "Modules\\Contact\\": "Modules/Contact/app/",
             "Modules\\Employer\\": "Modules/Employer/app/",
             "Modules\\Image\\": "Modules/Image/app/",
             "Modules\\Wallet\\": "Modules/Wallet/app/"

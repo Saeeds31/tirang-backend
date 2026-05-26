@@ -35,5 +35,6 @@
     "Employer": true,
     "Images": true,
     "Image": true,
-    "File": true
+    "File": true,
+    "Contact": true
 }
