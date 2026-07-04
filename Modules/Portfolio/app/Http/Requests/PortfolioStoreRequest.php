@@ -15,7 +15,7 @@ class PortfolioStoreRequest extends FormRequest
             'title' => 'required|string|min:3',
             'description' => 'nullable|string|min:3',
             "image" => 'required|file|max:1024',
-            "video" => 'nullable|file|max:4096',
+            "video" => 'nullable|file|max:10240',
             "meta_title" => 'nullable|string|min:3',
             "meta_description" => 'nullable|string|min:3',
             "social_link" => 'nullable|url|max:255',
