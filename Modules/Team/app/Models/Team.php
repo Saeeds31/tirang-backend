@@ -12,6 +12,7 @@ class Team extends Model
     protected $fillable = [
         'full_name',
         'image',
+        'background',
         'post',
         'sort_order',
         'biography',

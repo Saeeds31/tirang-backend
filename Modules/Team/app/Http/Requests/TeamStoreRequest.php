@@ -15,6 +15,7 @@ class TeamStoreRequest extends FormRequest
             'full_name'     => ['required', 'string', 'max:255'],
             'post'     => ['required', 'string', 'max:255'],
             'image'     => ['required', 'file', 'max:1024'],
+            'background'     => ['required', 'file', 'max:1024'],
             'sort_order'     => ['required', 'integer'],
             'mobile'     => ['required', 'string', 'size:11'],
             'biography' => 'required|string|min:3',

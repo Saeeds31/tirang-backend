@@ -14,6 +14,7 @@ class TeamUpdateRequest extends FormRequest
         return [
             'full_name'     => ['sometimes', 'string', 'max:255'],
             'image'     => ['sometimes', 'file', 'max:1024'],
+            'background'     => ['sometimes', 'file', 'max:1024'],
             'post'     => ['sometimes', 'string', 'max:255'],
             'mobile'     => ['sometimes', 'string', 'size:11'],
             'sort_order'     => ['sometimes', 'integer'],

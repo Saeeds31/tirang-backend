@@ -22,6 +22,17 @@ class PortfolioUpdateRequest extends FormRequest
             "website_link" => 'sometimes|url|min:3',
             'employer_id' => 'nullable|integer|exists:employers,id',
             'category_id' => 'sometimes|integer|exists:portfolio_categories,id',
+            'instagram_info' => 'nullable|array',
+            'instagram_info.like_count' => 'nullable|integer|min:0',
+            'instagram_info.view_count' => 'nullable|integer|min:0',
+            'instagram_info.reach_count' => 'nullable|integer|min:0',
+            'instagram_info.follower_count' => 'nullable|integer|min:0',
+            'instagram_info.mounth_count' => 'nullable|integer|min:0',
+            'instagram_info.brand_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'instagram_info.insta_base_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'instagram_info.first_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'instagram_info.second_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'instagram_info.third_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 

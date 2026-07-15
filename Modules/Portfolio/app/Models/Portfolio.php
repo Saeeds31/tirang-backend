@@ -37,6 +37,10 @@ class Portfolio extends Model
     {
         return $this->belongsTo(Employer::class);
     }
+    public function instagramInfo()
+    {
+        return $this->hasOne(InstagramInfo::class);
+    }
     public function images()
     {
         return $this->belongsToMany(

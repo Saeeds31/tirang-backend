@@ -46,6 +46,11 @@ class TeamController extends Controller
             $path = $request->file('image')->store('teams', 'public');
             $validated_data['image'] = $path;
         }
+        if ($request->hasFile('background')) {
+            $pathbackground = $request->file('background')->store('teams', 'public');
+            $validated_data['background'] = $pathbackground;
+        }
+        
         $member = Team::create($validated_data);
         $notifications->create(
             "ثبت عضو ",
@@ -85,6 +90,14 @@ class TeamController extends Controller
             $path = $request->file('image')->store('teams', 'public');
             $validated_data['image'] = $path;
         }
+        if ($request->hasFile('background')) {
+            if ($member->background) {
+                Storage::disk('public')->delete($member->background);
+            }
+            $pathbackground = $request->file('background')->store('teams', 'public');
+            $validated_data['background'] = $pathbackground;
+        }
+        
         $member->update($validated_data);
         $notifications->create(
             "ویرایش عضو",
@@ -117,6 +130,10 @@ class TeamController extends Controller
         if ($member->image) {
             Storage::disk('public')->delete($member->image);
         }
+        if ($member->background) {
+            Storage::disk('public')->delete($member->background);
+        }
+        
         $notifications->create(
             "حذف عضو",
             "عضو {$member->full_name}  از سیستم حذف شد",
