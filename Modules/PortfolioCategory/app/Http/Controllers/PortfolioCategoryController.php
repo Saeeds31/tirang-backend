@@ -30,7 +30,7 @@ class PortfolioCategoryController extends Controller
 
     public function frontDetail($id)
     {
-        $category  = PortfolioCategory::with(['portfolios.images'])->findOrFail($id);
+        $category  = PortfolioCategory::with(['portfolios.images', 'portfolios.instagramInfo'])->findOrFail($id);
         return response()->json([
             'success' => true,
             'message' => ' دسته بندی',
